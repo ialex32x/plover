@@ -2002,7 +2002,7 @@ define("plover/editor/base/treeview", ["require", "exports", "UnityEditor", "Uni
     exports.UTreeView = UTreeView;
     UTreeView.CONTEXT_MENU = "CONTEXT_MENU";
 });
-define("plover/editor/base/treenode", ["require", "exports", "UnityEditor", "UnityEngine", "plover/events/dispatcher", "plover/editor/base/menu_builder", "plover/editor/base/treeview"], function (require, exports, UnityEditor_8, UnityEngine_10, dispatcher_4, menu_builder_1, treeview_1) {
+define("plover/editor/base/treenode", ["require", "exports", "QuickJS.Unity", "UnityEditor", "UnityEngine", "plover/events/dispatcher", "plover/editor/base/menu_builder", "plover/editor/base/treeview"], function (require, exports, QuickJS_Unity_1, UnityEditor_8, UnityEngine_10, dispatcher_4, menu_builder_1, treeview_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UTreeNode = exports.BuiltinIcons = void 0;
@@ -2010,7 +2010,7 @@ define("plover/editor/base/treenode", ["require", "exports", "UnityEditor", "Uni
         static getIcon(name) {
             let icon = BuiltinIcons._cache[name];
             if (typeof icon === "undefined") {
-                icon = BuiltinIcons._cache[name] = UnityEditor_8.AssetDatabase.LoadAssetAtPath(`Assets/jsb/Editor/Icons/${name}.png`, UnityEngine_10.Texture);
+                icon = BuiltinIcons._cache[name] = QuickJS_Unity_1.UnityHelper.GetIcon(name);
             }
             return icon;
         }
@@ -2452,21 +2452,14 @@ define("plover/editor/base/editor_window_base", ["require", "exports", "UnityEdi
         TContent(name, icon, tooltip, text) {
             let content = this._contents[name];
             if (typeof content === "undefined") {
-                if (typeof text === "string") {
-                    if (typeof tooltip === "string") {
-                        content = new UnityEngine_12.GUIContent(text, treenode_2.BuiltinIcons.getIcon(icon), tooltip);
-                    }
-                    else {
-                        content = new UnityEngine_12.GUIContent(text, treenode_2.BuiltinIcons.getIcon(icon));
-                    }
+                if (typeof text !== "string") {
+                    text = name;
+                }
+                if (typeof tooltip === "string") {
+                    content = new UnityEngine_12.GUIContent(text, treenode_2.BuiltinIcons.getIcon(icon), tooltip);
                 }
                 else {
-                    if (typeof tooltip === "string") {
-                        content = new UnityEngine_12.GUIContent(treenode_2.BuiltinIcons.getIcon(icon), tooltip);
-                    }
-                    else {
-                        content = new UnityEngine_12.GUIContent(treenode_2.BuiltinIcons.getIcon(icon));
-                    }
+                    content = new UnityEngine_12.GUIContent(text, treenode_2.BuiltinIcons.getIcon(icon));
                 }
                 this._contents[name] = content;
             }
@@ -2619,13 +2612,13 @@ define("plover/editor/js_module_view", ["require", "exports", "UnityEditor", "Un
             }
         }
         drawToolBar() {
-            if (UnityEngine_13.GUILayout.Button(this.TContent("Expand All", "Hierarchy", "Expand All"), UnityEditor_11.EditorStyles.toolbarButton, UnityEngine_13.GUILayout.Width(32), UnityEngine_13.GUILayout.Height(32))) {
+            if (UnityEngine_13.GUILayout.Button(this.TContent("Expand All", "Hierarchy", "Expand All"), UnityEditor_11.EditorStyles.toolbarButton, UnityEngine_13.GUILayout.Width(128), UnityEngine_13.GUILayout.Height(this.toobarHeight))) {
                 this._treeView.expandAll();
             }
-            if (UnityEngine_13.GUILayout.Button(this.TContent("Collapse All", "Collapsed", "Collapse All"), UnityEditor_11.EditorStyles.toolbarButton, UnityEngine_13.GUILayout.Width(32), UnityEngine_13.GUILayout.Height(32))) {
+            if (UnityEngine_13.GUILayout.Button(this.TContent("Collapse All", "Collapsed", "Collapse All"), UnityEditor_11.EditorStyles.toolbarButton, UnityEngine_13.GUILayout.Width(128), UnityEngine_13.GUILayout.Height(this.toobarHeight))) {
                 this._treeView.collapseAll();
             }
-            if (UnityEngine_13.GUILayout.Button(this.TContent("Refresh", "Refresh", "Refresh"), UnityEditor_11.EditorStyles.toolbarButton, UnityEngine_13.GUILayout.Width(32), UnityEngine_13.GUILayout.Height(32))) {
+            if (UnityEngine_13.GUILayout.Button(this.TContent("Refresh", "Refresh", "Refresh"), UnityEditor_11.EditorStyles.toolbarButton, UnityEngine_13.GUILayout.Width(128), UnityEngine_13.GUILayout.Height(this.toobarHeight))) {
                 this.updateModules();
             }
         }

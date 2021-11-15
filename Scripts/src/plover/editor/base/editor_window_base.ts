@@ -108,18 +108,13 @@ export abstract class EditorWindowBase extends EditorWindow implements ITreeNode
     protected TContent(name: string, icon: string, tooltip?: string, text?: string) {
         let content = this._contents[name];
         if (typeof content === "undefined") {
-            if (typeof text === "string") {
-                if (typeof tooltip === "string") {
-                    content = new GUIContent(text, BuiltinIcons.getIcon(icon), tooltip);
-                } else {
-                    content = new GUIContent(text, BuiltinIcons.getIcon(icon));
-                }
+            if (typeof text !== "string") {
+                text = name;
+            }
+            if (typeof tooltip === "string") {
+                content = new GUIContent(text, BuiltinIcons.getIcon(icon), tooltip);
             } else {
-                if (typeof tooltip === "string") {
-                    content = new GUIContent(BuiltinIcons.getIcon(icon), tooltip);
-                } else {
-                    content = new GUIContent(BuiltinIcons.getIcon(icon));
-                }
+                content = new GUIContent(text, BuiltinIcons.getIcon(icon));
             }
             this._contents[name] = content;
         }

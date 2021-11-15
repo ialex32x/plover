@@ -55,15 +55,15 @@ export class JSModuleView extends EditorWindowBase {
     }
 
     protected drawToolBar() {
-        if (GUILayout.Button(this.TContent("Expand All", "Hierarchy", "Expand All"), EditorStyles.toolbarButton, GUILayout.Width(32), GUILayout.Height(32))) {
+        if (GUILayout.Button(this.TContent("Expand All", "Hierarchy", "Expand All"), EditorStyles.toolbarButton, GUILayout.Width(128), GUILayout.Height(this.toobarHeight))) {
             this._treeView.expandAll();
         }
 
-        if (GUILayout.Button(this.TContent("Collapse All", "Collapsed", "Collapse All"), EditorStyles.toolbarButton, GUILayout.Width(32), GUILayout.Height(32))) {
+        if (GUILayout.Button(this.TContent("Collapse All", "Collapsed", "Collapse All"), EditorStyles.toolbarButton, GUILayout.Width(128), GUILayout.Height(this.toobarHeight))) {
             this._treeView.collapseAll();
         }
 
-        if (GUILayout.Button(this.TContent("Refresh", "Refresh", "Refresh"), EditorStyles.toolbarButton, GUILayout.Width(32), GUILayout.Height(32))) {
+        if (GUILayout.Button(this.TContent("Refresh", "Refresh", "Refresh"), EditorStyles.toolbarButton, GUILayout.Width(128), GUILayout.Height(this.toobarHeight))) {
             this.updateModules();
         }
     }

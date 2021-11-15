@@ -1,3 +1,4 @@
+import { UnityHelper } from "QuickJS.Unity";
 import { AssetDatabase, EditorGUI, EditorGUILayout, EditorGUIUtility, EditorStyles, GenericMenu, Handles } from "UnityEditor";
 import { Color, Event, EventType, FocusType, GUI, GUIContent, GUILayout, GUIUtility, KeyCode, Rect, Texture, Vector2, Vector3 } from "UnityEngine";
 import { EventDispatcher } from "../../../plover/events/dispatcher";
@@ -17,7 +18,7 @@ export class BuiltinIcons {
     static getIcon(name: string) {
         let icon = BuiltinIcons._cache[name];
         if (typeof icon === "undefined") {
-            icon = BuiltinIcons._cache[name] = <Texture>AssetDatabase.LoadAssetAtPath(`Assets/jsb/Editor/Icons/${name}.png`, Texture);
+            icon = BuiltinIcons._cache[name] = UnityHelper.GetIcon(name);
         }
         return icon;
     }
