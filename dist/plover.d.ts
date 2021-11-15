@@ -1,5 +1,5 @@
 /// <reference types="node" />
-declare module "events/dispatcher" {
+declare module "plover/events/dispatcher" {
     export class Handler {
         caller: any;
         fn: Function;
@@ -38,8 +38,8 @@ declare module "events/dispatcher" {
         dispatch(evt: string, arg0?: any, arg1?: any, arg2?: any): void;
     }
 }
-declare module "editor/auto_completion_field" {
-    import { EventDispatcher } from "events/dispatcher";
+declare module "plover/editor/auto_completion_field" {
+    import { EventDispatcher } from "plover/events/dispatcher";
     export class AutoCompletionField extends EventDispatcher {
         searchString: string;
         maxResults: number;
@@ -63,7 +63,7 @@ declare module "editor/auto_completion_field" {
         private repaintFocusedWindow;
     }
 }
-declare module "runtime/serialize" {
+declare module "plover/runtime/serialize" {
     import { ByteBuffer } from "QuickJS.IO";
     import { JSSerializationContext } from "QuickJS.Unity";
     export interface IPrimitiveSerializer {
@@ -97,7 +97,7 @@ declare module "runtime/serialize" {
         [key: string]: IPrimitiveSerializer;
     }, bSetAsLatest?: boolean): void;
 }
-declare module "runtime/class_decorators" {
+declare module "plover/runtime/class_decorators" {
     import { ByteBuffer } from "QuickJS.IO";
     import { JSSerializationContext } from "QuickJS.Unity";
     export interface FunctionMetaInfo {
@@ -169,8 +169,8 @@ declare module "runtime/class_decorators" {
         private static _deserializeObjectInternal;
     }
 }
-declare module "editor/drawer" {
-    import { PropertyMetaInfo } from "runtime/class_decorators";
+declare module "plover/editor/drawer" {
+    import { PropertyMetaInfo } from "plover/runtime/class_decorators";
     interface IPropertyDrawer {
         draw(value: any, prop: PropertyMetaInfo, label: string, editablePE: boolean): any;
     }
@@ -178,9 +178,9 @@ declare module "editor/drawer" {
         [key: string]: IPropertyDrawer;
     };
 }
-declare module "editor/editor_decorators" {
+declare module "plover/editor/editor_decorators" {
     import { Editor } from "UnityEditor";
-    import { ClassMetaInfo } from "runtime/class_decorators";
+    import { ClassMetaInfo } from "plover/runtime/class_decorators";
     export interface EditorWindowMetaInfo extends ClassMetaInfo {
     }
     export function ScriptEditor(forType: any): (editorType: any) => any;
@@ -196,7 +196,7 @@ declare module "editor/editor_decorators" {
         static draw(target: any): void;
     }
 }
-declare module "editor/file_watcher" {
+declare module "plover/editor/file_watcher" {
     export enum EFileState {
         CHANGE = 1,
         NEW = 2,
@@ -233,7 +233,7 @@ declare module "editor/file_watcher" {
         private dispatchEvents;
     }
 }
-declare module "editor/js_console" {
+declare module "plover/editor/js_console" {
     import { EditorWindow } from "UnityEditor";
     export function fillAutoCompletion(scope: any, pattern: string): Array<string>;
     export class JSConsole extends EditorWindow {
@@ -246,7 +246,7 @@ declare module "editor/js_console" {
         OnGUI(): void;
     }
 }
-declare module "text/string_utils" {
+declare module "plover/text/string_utils" {
     export let DefaultMatcher: RegExp;
     export function TEXT(s: string): string;
     /**
@@ -302,7 +302,7 @@ declare module "text/string_utils" {
         static time(deltaTime: number): string;
     }
 }
-declare module "editor/base/menu_builder" {
+declare module "plover/editor/base/menu_builder" {
     import { GenericMenu } from "UnityEditor";
     export interface IMenuItem {
         name: string;
@@ -335,7 +335,7 @@ declare module "editor/base/menu_builder" {
         build(): GenericMenu;
     }
 }
-declare module "editor/base/splitview" {
+declare module "plover/editor/base/splitview" {
     import { EditorWindow } from "UnityEditor";
     import { Color, Rect } from "UnityEngine";
     export class HSplitView {
@@ -350,8 +350,8 @@ declare module "editor/base/splitview" {
         draw(window: EditorWindow, startY: number, fullWidth: number, fullHeight: number): void;
     }
 }
-declare module "editor/base/treeview" {
-    import { ITreeNodeEventHandler, UTreeNode } from "editor/base/treenode";
+declare module "plover/editor/base/treeview" {
+    import { ITreeNodeEventHandler, UTreeNode } from "plover/editor/base/treenode";
     export class UTreeView {
         static readonly CONTEXT_MENU = "CONTEXT_MENU";
         readonly SKIP_RETURN = 0;
@@ -411,11 +411,11 @@ declare module "editor/base/treeview" {
         findNextNode(node: UTreeNode): UTreeNode;
     }
 }
-declare module "editor/base/treenode" {
+declare module "plover/editor/base/treenode" {
     import { GUIContent, Rect, Texture, Vector2 } from "UnityEngine";
-    import { EventDispatcher } from "events/dispatcher";
-    import { MenuBuilder } from "editor/base/menu_builder";
-    import { UTreeView } from "editor/base/treeview";
+    import { EventDispatcher } from "plover/events/dispatcher";
+    import { MenuBuilder } from "plover/editor/base/menu_builder";
+    import { UTreeView } from "plover/editor/base/treeview";
     export interface ITreeNodeEventHandler {
         onTreeNodeContextMenu(node: UTreeNode, builder: MenuBuilder): any;
         onTreeNodeCreated(node: UTreeNode): any;
@@ -515,9 +515,9 @@ declare module "editor/base/treenode" {
         endEdit(): void;
     }
 }
-declare module "editor/base/breadcrumb" {
-    import { UTreeNode } from "editor/base/treenode";
-    import { EventDispatcher } from "events/dispatcher";
+declare module "plover/editor/base/breadcrumb" {
+    import { UTreeNode } from "plover/editor/base/treenode";
+    import { EventDispatcher } from "plover/events/dispatcher";
     export class Breadcrumb extends EventDispatcher {
         static readonly CLICKED = "CLICKED";
         private _height;
@@ -531,14 +531,14 @@ declare module "editor/base/breadcrumb" {
         draw(node: UTreeNode): void;
     }
 }
-declare module "editor/base/editor_window_base" {
+declare module "plover/editor/base/editor_window_base" {
     import { EditorWindow } from "UnityEditor";
     import { Event, GUIContent, Rect, Vector2 } from "UnityEngine";
-    import { MenuBuilder } from "editor/base/menu_builder";
-    import { HSplitView } from "editor/base/splitview";
-    import { ITreeNodeEventHandler, UTreeNode } from "editor/base/treenode";
-    import { UTreeView } from "editor/base/treeview";
-    import { Breadcrumb } from "editor/base/breadcrumb";
+    import { MenuBuilder } from "plover/editor/base/menu_builder";
+    import { HSplitView } from "plover/editor/base/splitview";
+    import { ITreeNodeEventHandler, UTreeNode } from "plover/editor/base/treenode";
+    import { UTreeView } from "plover/editor/base/treeview";
+    import { Breadcrumb } from "plover/editor/base/breadcrumb";
     export abstract class EditorWindowBase extends EditorWindow implements ITreeNodeEventHandler {
         protected _treeView: UTreeView;
         protected _breadcrumb: Breadcrumb;
@@ -570,12 +570,12 @@ declare module "editor/base/editor_window_base" {
         OnGUI(): void;
     }
 }
-declare module "editor/js_reload" {
+declare module "plover/editor/js_reload" {
     export function reload(mod: NodeModule): void;
 }
-declare module "editor/js_module_view" {
-    import { EditorWindowBase } from "editor/base/editor_window_base";
-    import { UTreeNode } from "editor/base/treenode";
+declare module "plover/editor/js_module_view" {
+    import { EditorWindowBase } from "plover/editor/base/editor_window_base";
+    import { UTreeNode } from "plover/editor/base/treenode";
     export class JSModuleView extends EditorWindowBase {
         private _touch;
         Awake(): void;
@@ -587,7 +587,7 @@ declare module "editor/js_module_view" {
         private addModule;
     }
 }
-declare module "editor/base/content_cache" {
+declare module "plover/editor/base/content_cache" {
     import { GUIContent, Texture } from "UnityEngine";
     export class EdCache {
         static cache: {
@@ -596,7 +596,7 @@ declare module "editor/base/content_cache" {
         static T(title: string, tooltip?: string, image?: Texture): GUIContent;
     }
 }
-declare module "events/data_binding" {
+declare module "plover/events/data_binding" {
     export abstract class Subscriber {
         private _model;
         private _key;
@@ -625,7 +625,7 @@ declare module "events/data_binding" {
         }, modelObject: any, path: string, ...args: any[]): T;
     }
 }
-declare module "jsx/vue" {
+declare module "plover/jsx/vue" {
     export interface IViewModelWatcher {
         readonly value: string;
         readonly dirty: boolean;
@@ -644,9 +644,9 @@ declare module "jsx/vue" {
         static field(vm: any, path: string, cb?: (value: any, oldValue: any) => void): IViewModelWatcher;
     }
 }
-declare module "jsx/element" {
+declare module "plover/jsx/element" {
     import { Component, Transform } from "UnityEngine";
-    import { JSXWidgetBridge } from "jsx/bridge";
+    import { JSXWidgetBridge } from "plover/jsx/bridge";
     export interface Activator<T = JSXNode> {
         new (): T;
     }
@@ -691,9 +691,9 @@ declare module "jsx/element" {
         destroy(): void;
     }
 }
-declare module "jsx/bridge" {
+declare module "plover/jsx/bridge" {
     import { MonoBehaviour } from "UnityEngine";
-    import * as JSX from "jsx/element";
+    import * as JSX from "plover/jsx/element";
     export abstract class JSXWidgetBridge extends MonoBehaviour {
         protected _widget: JSX.JSXWidget;
         get data(): any;

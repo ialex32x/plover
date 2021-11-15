@@ -5,6 +5,7 @@
         "module": "AMD",
         "target": "ES2018",
         "sourceRoot": "",
+        "rootDir": "Scripts/src",
         // "outDir": "dist",
         "outFile": "dist/plover.js",
         "declaration": true,

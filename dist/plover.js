@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define("events/dispatcher", ["require", "exports"], function (require, exports) {
+define("plover/events/dispatcher", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EventDispatcher = exports.Dispatcher = exports.Handler = void 0;
@@ -173,7 +173,7 @@ define("events/dispatcher", ["require", "exports"], function (require, exports) 
 /*
 https://github.com/marijnz/unity-autocomplete-search-field
 */
-define("editor/auto_completion_field", ["require", "exports", "UnityEditor", "UnityEditor.IMGUI.Controls", "UnityEngine", "events/dispatcher"], function (require, exports, UnityEditor_1, UnityEditor_IMGUI_Controls_1, UnityEngine_1, dispatcher_1) {
+define("plover/editor/auto_completion_field", ["require", "exports", "UnityEditor", "UnityEditor.IMGUI.Controls", "UnityEngine", "plover/events/dispatcher"], function (require, exports, UnityEditor_1, UnityEditor_IMGUI_Controls_1, UnityEngine_1, dispatcher_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AutoCompletionField = void 0;
@@ -328,7 +328,7 @@ define("editor/auto_completion_field", ["require", "exports", "UnityEditor", "Un
     }
     exports.AutoCompletionField = AutoCompletionField;
 });
-define("runtime/serialize", ["require", "exports", "UnityEngine"], function (require, exports, UnityEngine_2) {
+define("plover/runtime/serialize", ["require", "exports", "UnityEngine"], function (require, exports, UnityEngine_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.RegisterSerializer = exports.GetSerializer = exports.GetLatestSerializer = exports.SerializedTypeID = void 0;
@@ -625,7 +625,7 @@ define("runtime/serialize", ["require", "exports", "UnityEngine"], function (req
         },
     }, true);
 });
-define("runtime/class_decorators", ["require", "exports", "UnityEngine", "runtime/serialize"], function (require, exports, UnityEngine_3, serialize_1) {
+define("plover/runtime/class_decorators", ["require", "exports", "UnityEngine", "plover/runtime/serialize"], function (require, exports, UnityEngine_3, serialize_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SerializationUtil = exports.ScriptFunction = exports.ScriptProperty = exports.ScriptObject = exports.ScriptString = exports.ScriptNumber = exports.ScriptInteger = exports.ScriptType = exports.ScriptAsset = exports.ScriptSerializable = void 0;
@@ -975,7 +975,7 @@ define("runtime/class_decorators", ["require", "exports", "UnityEngine", "runtim
     }
     exports.SerializationUtil = SerializationUtil;
 });
-define("editor/drawer", ["require", "exports", "UnityEditor", "UnityEngine"], function (require, exports, UnityEditor_2, UnityEngine_4) {
+define("plover/editor/drawer", ["require", "exports", "UnityEditor", "UnityEngine"], function (require, exports, UnityEditor_2, UnityEngine_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DefaultPropertyDrawers = void 0;
@@ -1123,7 +1123,7 @@ define("editor/drawer", ["require", "exports", "UnityEditor", "UnityEngine"], fu
         },
     };
 });
-define("editor/editor_decorators", ["require", "exports", "UnityEditor", "UnityEngine", "runtime/class_decorators", "editor/drawer"], function (require, exports, UnityEditor_3, UnityEngine_5, class_decorators_1, drawer_1) {
+define("plover/editor/editor_decorators", ["require", "exports", "UnityEditor", "UnityEngine", "plover/runtime/class_decorators", "plover/editor/drawer"], function (require, exports, UnityEditor_3, UnityEngine_5, class_decorators_1, drawer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EditorUtil = exports.DefaultEditor = exports.ScriptEditorWindow = exports.ScriptEditor = void 0;
@@ -1203,7 +1203,7 @@ define("editor/editor_decorators", ["require", "exports", "UnityEditor", "UnityE
     }
     exports.EditorUtil = EditorUtil;
 });
-define("editor/file_watcher", ["require", "exports", "events/dispatcher"], function (require, exports, dispatcher_2) {
+define("plover/editor/file_watcher", ["require", "exports", "plover/events/dispatcher"], function (require, exports, dispatcher_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FileWatcher = exports.EFileState = void 0;
@@ -1294,7 +1294,7 @@ define("editor/file_watcher", ["require", "exports", "events/dispatcher"], funct
     FileWatcher.ANY = "* ANY";
     FileWatcher.CHANGED = "* CHANGED";
 });
-define("editor/js_console", ["require", "exports", "UnityEditor", "UnityEngine", "editor/auto_completion_field"], function (require, exports, UnityEditor_4, UnityEngine_6, auto_completion_field_1) {
+define("plover/editor/js_console", ["require", "exports", "UnityEditor", "UnityEngine", "plover/editor/auto_completion_field"], function (require, exports, UnityEditor_4, UnityEngine_6, auto_completion_field_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.JSConsole = exports.fillAutoCompletion = void 0;
@@ -1379,7 +1379,7 @@ define("editor/js_console", ["require", "exports", "UnityEditor", "UnityEngine",
     }
     exports.JSConsole = JSConsole;
 });
-define("text/string_utils", ["require", "exports", "jsb"], function (require, exports, jsb) {
+define("plover/text/string_utils", ["require", "exports", "jsb"], function (require, exports, jsb) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.StringUtil = exports.Contextual = exports.TEXT = exports.DefaultMatcher = void 0;
@@ -1495,7 +1495,7 @@ define("text/string_utils", ["require", "exports", "jsb"], function (require, ex
     }
     exports.StringUtil = StringUtil;
 });
-define("editor/base/menu_builder", ["require", "exports", "UnityEditor", "UnityEngine"], function (require, exports, UnityEditor_5, UnityEngine_7) {
+define("plover/editor/base/menu_builder", ["require", "exports", "UnityEditor", "UnityEngine"], function (require, exports, UnityEditor_5, UnityEngine_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MenuBuilder = exports.MenuDisabledAction = exports.MenuAction = exports.MenuSeparator = exports.MenuAbstractItem = void 0;
@@ -1565,7 +1565,7 @@ define("editor/base/menu_builder", ["require", "exports", "UnityEditor", "UnityE
     }
     exports.MenuBuilder = MenuBuilder;
 });
-define("editor/base/splitview", ["require", "exports", "UnityEditor", "UnityEngine"], function (require, exports, UnityEditor_6, UnityEngine_8) {
+define("plover/editor/base/splitview", ["require", "exports", "UnityEditor", "UnityEngine"], function (require, exports, UnityEditor_6, UnityEngine_8) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.HSplitView = void 0;
@@ -1611,7 +1611,7 @@ define("editor/base/splitview", ["require", "exports", "UnityEditor", "UnityEngi
     }
     exports.HSplitView = HSplitView;
 });
-define("editor/base/treeview", ["require", "exports", "UnityEditor", "UnityEngine", "events/dispatcher", "editor/base/treenode"], function (require, exports, UnityEditor_7, UnityEngine_9, dispatcher_3, treenode_1) {
+define("plover/editor/base/treeview", ["require", "exports", "UnityEditor", "UnityEngine", "plover/events/dispatcher", "plover/editor/base/treenode"], function (require, exports, UnityEditor_7, UnityEngine_9, dispatcher_3, treenode_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UTreeView = void 0;
@@ -2002,7 +2002,7 @@ define("editor/base/treeview", ["require", "exports", "UnityEditor", "UnityEngin
     exports.UTreeView = UTreeView;
     UTreeView.CONTEXT_MENU = "CONTEXT_MENU";
 });
-define("editor/base/treenode", ["require", "exports", "UnityEditor", "UnityEngine", "events/dispatcher", "editor/base/menu_builder", "editor/base/treeview"], function (require, exports, UnityEditor_8, UnityEngine_10, dispatcher_4, menu_builder_1, treeview_1) {
+define("plover/editor/base/treenode", ["require", "exports", "UnityEditor", "UnityEngine", "plover/events/dispatcher", "plover/editor/base/menu_builder", "plover/editor/base/treeview"], function (require, exports, UnityEditor_8, UnityEngine_10, dispatcher_4, menu_builder_1, treeview_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UTreeNode = exports.BuiltinIcons = void 0;
@@ -2317,7 +2317,7 @@ define("editor/base/treenode", ["require", "exports", "UnityEditor", "UnityEngin
     }
     exports.UTreeNode = UTreeNode;
 });
-define("editor/base/breadcrumb", ["require", "exports", "UnityEditor", "UnityEngine", "jsb", "events/dispatcher"], function (require, exports, UnityEditor_9, UnityEngine_11, jsb, dispatcher_5) {
+define("plover/editor/base/breadcrumb", ["require", "exports", "UnityEditor", "UnityEngine", "jsb", "plover/events/dispatcher"], function (require, exports, UnityEditor_9, UnityEngine_11, jsb, dispatcher_5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Breadcrumb = void 0;
@@ -2369,7 +2369,7 @@ define("editor/base/breadcrumb", ["require", "exports", "UnityEditor", "UnityEng
     exports.Breadcrumb = Breadcrumb;
     Breadcrumb.CLICKED = "CLICKED";
 });
-define("editor/base/editor_window_base", ["require", "exports", "UnityEditor", "UnityEngine", "editor/base/menu_builder", "editor/base/splitview", "editor/base/treenode", "editor/base/treeview", "jsb", "text/string_utils", "editor/base/breadcrumb"], function (require, exports, UnityEditor_10, UnityEngine_12, menu_builder_2, splitview_1, treenode_2, treeview_2, jsb, string_utils_1, breadcrumb_1) {
+define("plover/editor/base/editor_window_base", ["require", "exports", "UnityEditor", "UnityEngine", "plover/editor/base/menu_builder", "plover/editor/base/splitview", "plover/editor/base/treenode", "plover/editor/base/treeview", "jsb", "plover/text/string_utils", "plover/editor/base/breadcrumb"], function (require, exports, UnityEditor_10, UnityEngine_12, menu_builder_2, splitview_1, treenode_2, treeview_2, jsb, string_utils_1, breadcrumb_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EditorWindowBase = void 0;
@@ -2513,7 +2513,7 @@ define("editor/base/editor_window_base", ["require", "exports", "UnityEditor", "
     }
     exports.EditorWindowBase = EditorWindowBase;
 });
-define("editor/js_reload", ["require", "exports", "editor/file_watcher", "jsb"], function (require, exports, file_watcher_1, jsb_1) {
+define("plover/editor/js_reload", ["require", "exports", "plover/editor/file_watcher", "jsb"], function (require, exports, file_watcher_1, jsb_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reload = void 0;
@@ -2574,7 +2574,7 @@ define("editor/js_reload", ["require", "exports", "editor/file_watcher", "jsb"],
     });
     globalThis[FileWatcherSymbol] = fw;
 });
-define("editor/js_module_view", ["require", "exports", "UnityEditor", "UnityEngine", "text/string_utils", "editor/base/editor_window_base", "editor/js_reload"], function (require, exports, UnityEditor_11, UnityEngine_13, string_utils_2, editor_window_base_1, js_reload_1) {
+define("plover/editor/js_module_view", ["require", "exports", "UnityEditor", "UnityEngine", "plover/text/string_utils", "plover/editor/base/editor_window_base", "plover/editor/js_reload"], function (require, exports, UnityEditor_11, UnityEngine_13, string_utils_2, editor_window_base_1, js_reload_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.JSModuleView = void 0;
@@ -2664,7 +2664,7 @@ define("editor/js_module_view", ["require", "exports", "UnityEditor", "UnityEngi
     }
     exports.JSModuleView = JSModuleView;
 });
-define("editor/base/content_cache", ["require", "exports", "UnityEngine"], function (require, exports, UnityEngine_14) {
+define("plover/editor/base/content_cache", ["require", "exports", "UnityEngine"], function (require, exports, UnityEngine_14) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EdCache = void 0;
@@ -2680,7 +2680,7 @@ define("editor/base/content_cache", ["require", "exports", "UnityEngine"], funct
     exports.EdCache = EdCache;
     EdCache.cache = {};
 });
-define("events/data_binding", ["require", "exports"], function (require, exports) {
+define("plover/events/data_binding", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DataBinding = exports.Subscribers = exports.Subscriber = void 0;
@@ -2808,7 +2808,7 @@ define("events/data_binding", ["require", "exports"], function (require, exports
  * (c) 2014-2021 Evan You
  * Released under the MIT License.
  */
-define("jsx/vue", ["require", "exports"], function (require, exports) {
+define("plover/jsx/vue", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ViewModel = void 0;
@@ -3913,7 +3913,7 @@ define("jsx/vue", ["require", "exports"], function (require, exports) {
     }
     exports.ViewModel = ViewModel;
 });
-define("jsx/element", ["require", "exports", "UnityEngine.UI", "jsx/vue"], function (require, exports, UnityEngine_UI_1, vue_1) {
+define("plover/jsx/element", ["require", "exports", "UnityEngine.UI", "plover/jsx/vue"], function (require, exports, UnityEngine_UI_1, vue_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.JSXText = exports.JSXWidget = exports.JSXCompoundNode = exports.registerElement = exports.createElement = exports.element = exports.findUIComponent = exports.JSXNode = void 0;
@@ -4044,7 +4044,7 @@ define("jsx/element", ["require", "exports", "UnityEngine.UI", "jsx/vue"], funct
     ], JSXText);
     exports.JSXText = JSXText;
 });
-define("jsx/bridge", ["require", "exports", "UnityEngine", "runtime/class_decorators"], function (require, exports, UnityEngine_15, class_decorators_2) {
+define("plover/jsx/bridge", ["require", "exports", "UnityEngine", "plover/runtime/class_decorators"], function (require, exports, UnityEngine_15, class_decorators_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.JSXWidgetBridge = void 0;
