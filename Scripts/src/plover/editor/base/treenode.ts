@@ -15,9 +15,9 @@ export class BuiltinIcons {
     private static _cache: { [key: string]: Texture } = {};
 
     static getIcon(name: string) {
-        let icon = this._cache[name];
+        let icon = BuiltinIcons._cache[name];
         if (typeof icon === "undefined") {
-            icon = this._cache[name] = <Texture>AssetDatabase.LoadAssetAtPath(`Assets/jsb/Editor/Icons/${name}.png`, Texture);
+            icon = BuiltinIcons._cache[name] = <Texture>AssetDatabase.LoadAssetAtPath(`Assets/jsb/Editor/Icons/${name}.png`, Texture);
         }
         return icon;
     }

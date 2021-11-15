@@ -199,7 +199,7 @@ export class SerializationUtil {
     }
 
     static serialize(target: any, ps: JSSerializationContext) {
-        this.markAsReady(target);
+        SerializationUtil.markAsReady(target);
         let impl = GetLatestSerializer();
         console.assert(typeof ps === "object");
         if (typeof impl === "object") {
@@ -207,7 +207,7 @@ export class SerializationUtil {
 
             let slots: {} = target[Symbol_SerializedFields];
             if (typeof slots !== "undefined") {
-                let buffer = this._serializeObject({ impl: impl, ps: ps }, target, slots);
+                let buffer = SerializationUtil._serializeObject({ impl: impl, ps: ps }, target, slots);
                 ps.Flush(buffer);
             }
         }
@@ -228,7 +228,7 @@ export class SerializationUtil {
 
             if (typeof s === "object") {
                 if (isArray) {
-                    let section = this._serializePrimitiveArray(context, s, value);
+                    let section = SerializationUtil._serializePrimitiveArray(context, s, value);
 
                     buffer.WriteByte(SerializedTypeID.Array);
                     buffer.WriteByte(s.typeid);
@@ -247,14 +247,14 @@ export class SerializationUtil {
             let fieldSlots: { [key: string]: PropertyMetaInfo } = slotType.prototype[Symbol_SerializedFields];
             if (typeof fieldSlots !== "undefined") {
                 if (isArray) {
-                    let section = this._serializeObjectArray(context, fieldSlots, value);
+                    let section = SerializationUtil._serializeObjectArray(context, fieldSlots, value);
 
                     buffer.WriteByte(SerializedTypeID.Array);
                     buffer.WriteByte(SerializedTypeID.Object);
                     buffer.WriteInt32(section.readableBytes);
                     buffer.WriteBytes(section);
                 } else {
-                    let section = this._serializeObject(context, value, fieldSlots);
+                    let section = SerializationUtil._serializeObject(context, value, fieldSlots);
 
                     buffer.WriteByte(SerializedTypeID.Object);
                     buffer.WriteInt32(section.readableBytes);
@@ -271,7 +271,7 @@ export class SerializationUtil {
         let buffer = context.ps.AllocByteBuffer();
 
         for (let i = 0; i < length; ++i) {
-            let section = this._serializeObject(context, value[i], slots);
+            let section = SerializationUtil._serializeObject(context, value[i], slots);
             buffer.WriteInt32(section.readableBytes);
             buffer.WriteBytes(section);
         }
@@ -302,21 +302,21 @@ export class SerializationUtil {
                     continue;
                 }
                 buffer.WriteString(slot.name);
-                this._serializeValue(context, slot, value, buffer);
+                SerializationUtil._serializeValue(context, slot, value, buffer);
             }
         }
         return buffer;
     }
 
     static deserialize(target: any, ps: JSSerializationContext, buffer: ByteBuffer) {
-        this.markAsReady(target);
+        SerializationUtil.markAsReady(target);
         let slots: {} = target[Symbol_SerializedFields];
         if (typeof slots !== "undefined") {
             let dataFormat = ps.dataFormat || 0;
             let impl = GetSerializer(dataFormat);
 
             if (typeof impl === "object") {
-                this._deserializeObjectInternal({ impl: impl, ps: ps }, target, slots, buffer);
+                SerializationUtil._deserializeObjectInternal({ impl: impl, ps: ps }, target, slots, buffer);
             } else {
                 if (buffer.readableBytes > 0 && ps.dataFormat >= 0) {
                     console.error("no serializer for dataFormat", dataFormat);
@@ -329,7 +329,7 @@ export class SerializationUtil {
         if (typeof slot.type === "function") {
             let fieldValue = Object.create(slot.type);
             let fieldSlots = slot.type.prototype[Symbol_SerializedFields];
-            this._deserializeObjectInternal(context, fieldValue, fieldSlots, buffer);
+            SerializationUtil._deserializeObjectInternal(context, fieldValue, fieldSlots, buffer);
             return fieldValue;
         } else {
             console.error("expecting object but got primitive", slot.type);
@@ -341,7 +341,7 @@ export class SerializationUtil {
         while (buffer.readableBytes > 0) {
             let size = buffer.ReadInt32();
             let section = buffer.Slice(size);
-            let value = this._deserializeObject(context, slot, section);
+            let value = SerializationUtil._deserializeObject(context, slot, section);
             items.push(value);
         }
         return items;
@@ -402,7 +402,7 @@ export class SerializationUtil {
                     case SerializedTypeID.Object: {
                         let size = buffer.ReadInt32();
                         let section = buffer.Slice(size);
-                        target[slot.propertyKey] = this._deserializeObject(context, slot, section);
+                        target[slot.propertyKey] = SerializationUtil._deserializeObject(context, slot, section);
                         break;
                     }
                     case SerializedTypeID.Array: {
@@ -412,9 +412,9 @@ export class SerializationUtil {
 
                         let s: IPrimitiveSerializer = context.impl.typeids[elementTypeID];
                         if (typeof s === "undefined") {
-                            target[slot.propertyKey] = this._deserializeObjectArray(context, slot, section);
+                            target[slot.propertyKey] = SerializationUtil._deserializeObjectArray(context, slot, section);
                         } else {
-                            target[slot.propertyKey] = this._deserializePrimitiveArray(context, s, section);
+                            target[slot.propertyKey] = SerializationUtil._deserializePrimitiveArray(context, s, section);
                         }
                         break;
                     }

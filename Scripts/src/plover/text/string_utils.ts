@@ -102,9 +102,9 @@ export class StringUtil {
     static prefix2(num: number, length1: number, length2: number) {
         let p = num.toString().split(".");
         if (p.length == 1) {
-            return this.prefix(p[0], length1) + "." + this.prefix(0, length2);
+            return StringUtil.prefix(p[0], length1) + "." + StringUtil.prefix(0, length2);
         }
-        return this.prefix(p[0], length1) + "." + this.prefix(p[1].substring(0, length2), length2);
+        return StringUtil.prefix(p[0], length1) + "." + StringUtil.prefix(p[1].substring(0, length2), length2);
     }
 
     /**
