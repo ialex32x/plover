@@ -1,6 +1,6 @@
 import { ModuleManager } from "jsb";
 import { EditorGUI, EditorGUILayout, EditorStyles, EditorUtility } from "UnityEditor";
-import { GUIContent, GUILayout, Vector2 } from "UnityEngine";
+import { GUIContent, GUILayout } from "UnityEngine";
 import { TEXT } from "../text/string_utils";
 import { EditorWindowBase } from "./base/editor_window_base";
 import { UTreeNode } from "./base/treenode";

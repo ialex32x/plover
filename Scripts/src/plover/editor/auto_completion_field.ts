@@ -126,7 +126,7 @@ export class AutoCompletionField extends EventDispatcher {
             this.repaintFocusedWindow();
         }
 
-        var movedMouseInRect = this.previousMousePosition != current.mousePosition;
+        var movedMouseInRect = Vector2.op_Inequality(this.previousMousePosition, current.mousePosition);
 
         elementRect.x += Styles.resultsBorderWidth;
         elementRect.width -= Styles.resultsBorderWidth * 2;

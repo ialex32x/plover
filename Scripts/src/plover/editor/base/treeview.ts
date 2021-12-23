@@ -1,5 +1,5 @@
-import { AssetDatabase, EditorGUI, EditorGUILayout, EditorGUIUtility, EditorStyles, GenericMenu, Handles } from "UnityEditor";
-import { Color, Event, EventType, FocusType, GUI, GUIContent, GUILayout, GUIUtility, KeyCode, Rect, Texture, Vector2, Vector3 } from "UnityEngine";
+import { EditorGUI, EditorGUILayout } from "UnityEditor";
+import { Color, Event, EventType, FocusType, GUI, GUILayout, GUIUtility, KeyCode, Rect, Vector2 } from "UnityEngine";
 import { EventDispatcher } from "../../../plover/events/dispatcher";
 import { ITreeNodeEventHandler, UTreeNode } from "./treenode";
 

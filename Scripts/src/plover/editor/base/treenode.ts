@@ -1,6 +1,6 @@
 import { UnityHelper } from "QuickJS.Unity";
-import { AssetDatabase, EditorGUI, EditorGUILayout, EditorGUIUtility, EditorStyles, GenericMenu, Handles } from "UnityEditor";
-import { Color, Event, EventType, FocusType, GUI, GUIContent, GUILayout, GUIUtility, KeyCode, Rect, Texture, Vector2, Vector3 } from "UnityEngine";
+import { EditorGUI, EditorGUIUtility, EditorStyles } from "UnityEditor";
+import { GUI, GUIContent, Rect, Texture, Vector2 } from "UnityEngine";
 import { EventDispatcher } from "../../../plover/events/dispatcher";
 import { MenuBuilder } from "./menu_builder";
 import { UTreeView } from "./treeview";
