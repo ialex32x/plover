@@ -7987,6 +7987,7 @@ declare module "QuickJS.Binding" {
         filePath: string
         logPath: string
         sourceDir: string
+        javascriptDir: string
         outDir: string
         typescriptDir: string
         typescriptExt: string

@@ -2508,7 +2508,7 @@ define("plover/editor/base/editor_window_base", ["require", "exports", "UnityEdi
 });
 define("plover/editor/js_reload", ["require", "exports", "plover/editor/file_watcher", "jsb", "jsb.editor"], function (require, exports, file_watcher_1, jsb_1, jsb_editor_1) {
     "use strict";
-    var _a, _b;
+    var _a, _b, _c;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reload = void 0;
     let FileWatcherSymbol = Symbol.for("GlobalFileWatcher");
@@ -2545,7 +2545,7 @@ define("plover/editor/js_reload", ["require", "exports", "plover/editor/file_wat
             }
         }
     }
-    let outDir = (_b = (_a = jsb_editor_1.EditorRuntime === null || jsb_editor_1.EditorRuntime === void 0 ? void 0 : jsb_editor_1.EditorRuntime.tsconfig) === null || _a === void 0 ? void 0 : _a.compilerOptions) === null || _b === void 0 ? void 0 : _b.outDir;
+    let outDir = ((_b = (_a = jsb_editor_1.EditorRuntime === null || jsb_editor_1.EditorRuntime === void 0 ? void 0 : jsb_editor_1.EditorRuntime.tsconfig) === null || _a === void 0 ? void 0 : _a.compilerOptions) === null || _b === void 0 ? void 0 : _b.outDir) || ((_c = jsb_editor_1.EditorRuntime === null || jsb_editor_1.EditorRuntime === void 0 ? void 0 : jsb_editor_1.EditorRuntime.prefs) === null || _c === void 0 ? void 0 : _c.javascriptDir);
     if (typeof outDir === "string" && outDir.length > 0) {
         try {
             let fw = new file_watcher_1.FileWatcher(outDir, "*.js");

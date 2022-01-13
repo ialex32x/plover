@@ -42,7 +42,7 @@ function collect_reload_deps(mod: NodeModule, dirtylist: Array<NodeModule>) {
     }
 }
 
-let outDir = EditorRuntime?.tsconfig?.compilerOptions?.outDir;
+let outDir = EditorRuntime?.tsconfig?.compilerOptions?.outDir || EditorRuntime?.prefs?.javascriptDir;
 if (typeof outDir === "string" && outDir.length > 0) {
     try {
         let fw = new FileWatcher(outDir, "*.js");
