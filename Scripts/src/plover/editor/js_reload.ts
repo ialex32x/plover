@@ -1,5 +1,6 @@
 import { EFileState, FileWatcher, IFileStateMap } from "./file_watcher";
 import { ModuleManager } from "jsb";
+import { EditorRuntime } from "jsb.editor";
 
 let FileWatcherSymbol = Symbol.for("GlobalFileWatcher");
 
@@ -7,8 +8,6 @@ if (typeof globalThis[FileWatcherSymbol] !== "undefined") {
     globalThis[FileWatcherSymbol].dispose();
     delete globalThis[FileWatcherSymbol];
 }
-
-let fw = new FileWatcher("Scripts", "*.js");
 
 export function reload(mod: NodeModule) {
     if (typeof mod === "object") {
@@ -43,30 +42,42 @@ function collect_reload_deps(mod: NodeModule, dirtylist: Array<NodeModule>) {
     }
 }
 
-fw.on(FileWatcher.CHANGED, this, function (filestates: IFileStateMap) {
-    let cache = require.main["cache"];
-    let dirtylist = [];
+let outDir = EditorRuntime?.tsconfig?.compilerOptions?.outDir;
+if (typeof outDir === "string" && outDir.length > 0) {
+    try {
+        let fw = new FileWatcher(outDir, "*.js");
 
-    for (let name in filestates) {
-        let filestate = filestates[name];
+        fw.on(FileWatcher.CHANGED, this, function (filestates: IFileStateMap) {
+            let cache = require.main["cache"];
+            let dirtylist = [];
 
-        // console.log("file changed:", filestate.name, filestate.fullPath, filestate.state);
+            for (let name in filestates) {
+                let filestate = filestates[name];
 
-        if (filestate.state != EFileState.CHANGE) {
-            continue;
-        }
+                // console.log("file changed:", filestate.name, filestate.fullPath, filestate.state);
 
-        for (let moduleId in cache) {
-            let mod: NodeModule = cache[moduleId];
+                if (filestate.state != EFileState.CHANGE) {
+                    continue;
+                }
 
-            // console.warn(mod.filename, mod.filename == filestate.fullPath)
-            if (mod.filename == filestate.fullPath) {
-                collect_reload_deps(mod, dirtylist);
-                break;
+                for (let moduleId in cache) {
+                    let mod: NodeModule = cache[moduleId];
+
+                    // console.warn(mod.filename, mod.filename == filestate.fullPath)
+                    if (mod.filename == filestate.fullPath) {
+                        collect_reload_deps(mod, dirtylist);
+                        break;
+                    }
+                }
             }
-        }
-    }
-    do_reload(dirtylist);
-});
+            do_reload(dirtylist);
+        });
 
-globalThis[FileWatcherSymbol] = fw;
+        globalThis[FileWatcherSymbol] = fw;
+        console.log("watching", outDir);
+    } catch (error) {
+        console.error(error);
+    }
+} else {
+    console.warn("can not read compilerOptions.outDir from EditorRuntime");
+}
