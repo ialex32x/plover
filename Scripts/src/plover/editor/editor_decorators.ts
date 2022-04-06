@@ -1,4 +1,4 @@
-import { Editor, EditorApplication, EditorGUI, EditorGUILayout, EditorUtility, MessageType } from "UnityEditor";
+import { Editor, EditorApplication, EditorGUI, EditorGUILayout, EditorUtility, MessageType, Undo } from "UnityEditor";
 import { GUILayout, Object } from "UnityEngine";
 import { ClassMetaInfo, ScriptType, SerializationUtil } from "../runtime/class_decorators";
 import { DefaultPropertyDrawers } from "./drawer";
@@ -20,9 +20,30 @@ export function ScriptEditorWindow(meta?: EditorWindowMetaInfo) {
     return ScriptType(meta);
 }
 
-export class DefaultEditor extends Editor {
+export interface IEditorScriptingSupport {
+    OnPropertyChanging(target: any, property: any, propertyKey: string, newValue: any): void;
+    OnArrayPropertyChanging(target: any, property: any, propertyKey: string, index: number, newValue: any): void;
+}
+
+export class DefaultEditor extends Editor implements IEditorScriptingSupport {
+    OnPropertyPreChanging(target: any, name: string) {
+        Undo.RecordObject(target, "Change " + name);
+    }
+
+    OnPropertyChanging(target: any, property: any, propertyKey: string, newValue: any): void {
+        this.OnPropertyPreChanging(target, propertyKey);
+        property[propertyKey] = newValue;
+        EditorUtility.SetDirty(target);
+    }
+
+    OnArrayPropertyChanging(target: any, property: any, propertyKey: string, index: number, newValue: any): void {
+        this.OnPropertyPreChanging(target, propertyKey);
+        property[index] = newValue;
+        EditorUtility.SetDirty(target);
+    }
+
     OnInspectorGUI() {
-        EditorUtil.draw(this.target);
+        EditorUtil.draw(this, this.target);
     }
 }
 
@@ -34,7 +55,7 @@ export class EditorUtil {
     /**
      * 默认编辑器绘制行为
      */
-    static draw(target: any) {
+    static draw(editor: IEditorScriptingSupport, target: any) {
         SerializationUtil.forEach(target, (slots, propertyKey) => {
             let slot = slots[propertyKey];
             if (slot.visible) {
@@ -51,8 +72,7 @@ export class EditorUtil {
                             for (let i = 0; i < length; i++) {
                                 let newValue = d.draw(oldValue[i], slot, label, editablePE);
                                 if (editablePE && oldValue[i] != newValue) {
-                                    oldValue[i] = newValue;
-                                    EditorUtility.SetDirty(target);
+                                    editor.OnArrayPropertyChanging(target, oldValue, propertyKey, i, newValue);
                                 }
                             }
                             if (editablePE) {
@@ -64,8 +84,7 @@ export class EditorUtil {
                         } else {
                             let newValue = d.draw(oldValue, slot, label, editablePE);
                             if (editablePE && oldValue != newValue) {
-                                target[propertyKey] = newValue;
-                                EditorUtility.SetDirty(target);
+                                editor.OnPropertyChanging(target, target, propertyKey, newValue);
                             }
                         }
                         return true;
